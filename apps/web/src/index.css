@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card,
+.input,
+.btn,
+.alert {
+  @apply rounded;
+}
+
+.btn {
+  @apply no-animation;
+}

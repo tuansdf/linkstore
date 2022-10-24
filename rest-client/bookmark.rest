@@ -1,0 +1,25 @@
+GET {{baseUrl}}/bookmarks HTTP/1.1
+
+###
+
+GET {{baseUrl}} HTTP/1.1
+
+###
+
+POST {{baseUrl}}/bookmarks HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "asdursdf",
+    "href": "http://localhost.comsdfsdf",
+    "user": "userddddddddddddddddddd"
+}
+
+###
+
+PATCH {{baseUrl}}/bookmarks/-1BZ_7_SqdRvUy6j7V-MF HTTP/1.1
+Content-Type: application/json
+
+{
+    "href": "http://localhost.updatddde"
+}
