@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { JwtAuthGuard } from 'src/domains/auth/passport/jwt-auth.guard';
 import { Bookmark } from 'src/domains/bookmark/bookmark.entity';
 import { BookmarkService } from 'src/domains/bookmark/bookmark.service';
 import { CreateBookmarkDto } from 'src/domains/bookmark/dto/create-bookmark.dto';
+import { SearchBookmarkDto } from 'src/domains/bookmark/dto/search-bookmark.dto';
 import { UpdateBookmarkDto } from 'src/domains/bookmark/dto/update-bookmark.dto';
 
 @ApiBearerAuth()
@@ -27,6 +29,11 @@ export class BookmarkController {
   @Get()
   findAll(@Req() req) {
     return this.bookmarkService.findAll(req?.user?.id);
+  }
+
+  @Get('search')
+  search(@Query() queries: SearchBookmarkDto, @Req() req) {
+    return this.bookmarkService.search(req?.user.id, queries);
   }
 
   @Get(':id')

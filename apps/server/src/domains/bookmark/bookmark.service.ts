@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Bookmark } from 'src/domains/bookmark/bookmark.entity';
 import { CreateBookmarkDto } from 'src/domains/bookmark/dto/create-bookmark.dto';
+import { SearchBookmarkDto } from 'src/domains/bookmark/dto/search-bookmark.dto';
 import { UpdateBookmarkDto } from 'src/domains/bookmark/dto/update-bookmark.dto';
 import { TagService } from 'src/domains/tag/tag.service';
 import { UserService } from 'src/domains/user/user.service';
@@ -21,16 +22,39 @@ export class BookmarkService {
     return this.bookmarkRepository
       .createQueryBuilder('bookmark')
       .leftJoinAndSelect('bookmark.tags', 'tags')
-      .leftJoinAndSelect('bookmark.user', 'user')
       .where('bookmark.user = :userId', { userId })
       .getMany();
+  }
+
+  async search(userId: string, searchBookmarkDto: SearchBookmarkDto) {
+    let temp = this.bookmarkRepository
+      .createQueryBuilder('bookmark')
+      .leftJoinAndSelect('bookmark.tags', 'tags')
+      .where('bookmark.user = :userId', { userId });
+
+    if (searchBookmarkDto.name) {
+      temp = temp.andWhere('bookmark.name = :name', {
+        name: searchBookmarkDto.name,
+      });
+    }
+    if (searchBookmarkDto.tag) {
+      temp = temp.andWhere('tags.name = :tag', {
+        tag: searchBookmarkDto.tag,
+      });
+    }
+    if (searchBookmarkDto.href) {
+      temp = temp.andWhere('bookmark.href = :href', {
+        href: searchBookmarkDto.href,
+      });
+    }
+
+    return temp.getMany();
   }
 
   async findOneById(bookmarkId: string): Promise<Bookmark> {
     return this.bookmarkRepository
       .createQueryBuilder('bookmark')
       .leftJoinAndSelect('bookmark.tags', 'tags')
-      .leftJoinAndSelect('bookmark.user', 'user')
       .where('bookmark.id = :bookmarkId', { bookmarkId })
       .getOne();
   }
