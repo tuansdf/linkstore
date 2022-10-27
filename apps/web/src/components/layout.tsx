@@ -10,9 +10,14 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import AddLinkModal from "../features/bookmark/add-link-modal";
 import AddTagModal from "../features/tag/add-tag-modal";
 
+import { useForm } from "react-hook-form";
 import useAuthStore from "../features/authentication/auth.store";
 import useAddLinkModalStore from "../features/bookmark/add-link-modal.store";
 import useAddTagModalStore from "../features/tag/add-tag-modal.store";
+
+interface IFormValues {
+  search: string;
+}
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -20,6 +25,12 @@ export default function Layout() {
   const openLinkModal = useAddLinkModalStore((state) => state.openModal);
   const openTagModal = useAddTagModalStore((state) => state.openModal);
   const logoutUser = useAuthStore((state) => state.logout);
+
+  const { register, handleSubmit } = useForm<IFormValues>();
+
+  const onSubmit = (data: IFormValues) => {
+    navigate(`/search?name=${data.search}`);
+  };
 
   const logout = () => {
     logoutUser();
@@ -71,13 +82,14 @@ export default function Layout() {
         {/* navbar */}
         <div className="bg-base-200 p-2">
           <div className="flex-none">
-            <div className="form-control">
+            <form onSubmit={handleSubmit(onSubmit)} className="form-control">
               <input
                 type="text"
                 placeholder="Search"
                 className="input bg-transparent"
+                {...register("search")}
               />
-            </div>
+            </form>
           </div>
         </div>
 

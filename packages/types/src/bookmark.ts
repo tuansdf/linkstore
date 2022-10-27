@@ -19,3 +19,9 @@ export interface IUpdateBookmarkDto {
   href?: string;
   tags?: IUpdateBookmarkDto[];
 }
+
+export interface ISearchBookmarkDto {
+  tag?: string | null;
+  name?: string | null;
+  href?: string | null;
+}

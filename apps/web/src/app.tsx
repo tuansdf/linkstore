@@ -8,6 +8,7 @@ import Layout from "./components/layout";
 import CheckLogin from "./features/authentication/check-login";
 import LoginPage from "./pages/login.page";
 import RegisterPage from "./pages/register.page";
+import SearchPage from "./pages/search.page";
 import TagsPage from "./pages/tags.page";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "/", element: <HomePage /> },
+      { path: "search", element: <SearchPage /> },
       { path: "tags", element: <TagsPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
