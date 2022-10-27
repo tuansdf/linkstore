@@ -36,8 +36,6 @@ export class TagService {
   async create(user: User, createTagDto: CreateTagDto): Promise<Tag> {
     const tag = new Tag();
 
-    console.log({ createTagDto });
-
     tag.name = createTagDto.name;
     tag.user = user;
 

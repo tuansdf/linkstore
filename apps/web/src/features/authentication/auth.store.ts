@@ -18,6 +18,7 @@ interface IDoneOptions {
 
 interface AuthState {
   user: IJwtResponse | undefined;
+  getToken: () => string | undefined;
   isAuth: boolean;
   isLoading: boolean;
   isError: boolean;
@@ -29,8 +30,9 @@ interface AuthState {
 
 const useAuthStore = create(
   persist<AuthState>(
-    (set) => ({
+    (set, get) => ({
       user: undefined,
+      getToken: () => get().user?.accessToken,
       isAuth: false,
       isLoading: false,
       isError: false,

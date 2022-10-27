@@ -36,8 +36,6 @@ export class BookmarkController {
 
   @Post()
   create(@Body() createBookmarkDto: CreateBookmarkDto, @Req() req) {
-    console.log(req.user);
-
     return this.bookmarkService.create(req?.user?.id, createBookmarkDto);
   }
 
